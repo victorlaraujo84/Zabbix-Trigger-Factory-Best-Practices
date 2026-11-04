@@ -1,0 +1,6 @@
+{
+  "name": "Zabbix Trigger Factory & Best Practices",
+  "description": "Fábrica de documentação e geração manual de triggers Zabbix baseadas nas melhores práticas do edital para 13 categorias de monitoramento.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

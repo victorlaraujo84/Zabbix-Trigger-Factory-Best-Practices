@@ -1,0 +1,238 @@
+import { Customer, Host } from '../types';
+
+export const DEFAULT_CUSTOMER: Customer = {
+  customer_id: 'cust-firjan-001',
+  customer_name: 'Firjan',
+  created_at: '2026-01-15T08:00:00Z',
+  notes: 'Cliente de referência com parâmetros técnicos e severidades validadas para edital.',
+  business_rules: {
+    critical_hours: '1-5,08:00-18:00',
+    thresholds: {
+      // Capacidade Geral
+      cpu_warning: 70,
+      cpu_critical: 90,
+      memory_warning: 20,
+      memory_critical: 10,
+      disk_warning: 15,
+      disk_critical: 5,
+      uptime_reboot_threshold: 600,
+
+      // Banco de Dados
+      db_cpu_warning: 70,
+      db_memory_warning: 80,
+      db_buffer_hit_warning: 95,
+      db_page_life_warning: 300,
+      db_log_free_warning: 20,
+      db_data_free_warning: 15,
+      slow_query_threshold: 5,
+
+      // Web
+      web_response_time_warning: 3,
+      web_5xx_error_threshold: 10,
+      ssl_expiry_days_warning: 30,
+
+      // Link de Internet
+      link_warning_pct: 70,
+      link_critical_pct: 90,
+      link_usage_window: '5m',
+      link_loss_warning: 10,
+      link_latency_warning: 0.1,
+
+      // Rede
+      interface_util_warning: 80,
+      interface_error_warning: 100,
+      poe_power_warning: 80,
+
+      // Virtualização
+      vm_cpu_warning: 80,
+      vm_memory_warning: 85,
+      datastore_free_warning: 20,
+      storage_latency_warning: 20,
+      iops_warning: 5000,
+
+      // Docker
+      container_cpu_warning: 80,
+      container_memory_warning: 85,
+      container_restart_threshold: 3,
+
+      // Firewall
+      fw_session_warning: 80,
+      fw_session_critical: 95,
+      vpn_tunnel_warning: 1,
+      fw_cpu_warning: 80,
+      fw_threat_drop_warning: 50,
+
+      // Access Point
+      ap_clients_warning: 60,
+      ap_channel_util_warning: 70,
+      ap_noise_floor_warning: -75,
+
+      // Mail & M365
+      mail_queue_warning: 50,
+      m365_license_days_warning: 30,
+
+      // LDAP / AD
+      ldap_query_time_warning: 2,
+      ad_repl_lag_warning: 1800,
+
+      // Switch
+      switch_temp_warning: 55,
+    },
+    severity_policy: {
+      availability: 'Disaster',
+      reboot: 'Warning',
+      capacity: 'Warning',
+      capacity_critical: 'High',
+      performance: 'Average',
+      error: 'Average',
+      security: 'High',
+      information: 'Information',
+    },
+  },
+};
+
+export const INITIAL_HOSTS: Host[] = [
+  {
+    host_id: 'host-blade-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'BLADE-01',
+    display_name: 'Blade 01 - Datacenter SP (VMware ESXi)',
+    host_type: 'vmware',
+    ip: '10.0.0.10',
+    criticality: 'alta',
+    monitoring_model: 'SNMP',
+    notes: 'Chassi principal do cluster de banco de dados e virtualização corporativa.',
+  },
+  {
+    host_id: 'host-docker-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'DOCKER-HOST-01',
+    display_name: 'Host Docker 01 - Aplicações Containerizadas',
+    host_type: 'docker_container',
+    ip: '10.0.1.20',
+    criticality: 'alta',
+    monitoring_model: 'Agent Zabbix',
+    notes: 'Cluster de contêineres Docker com Zabbix Agent 2 plugin nativo.',
+  },
+  {
+    host_id: 'host-sql-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'SQL-PROD-01',
+    display_name: 'SQL-PROD-01 - Instância Principal MSSQL',
+    host_type: 'mssql',
+    ip: '10.0.2.15',
+    criticality: 'critica',
+    monitoring_model: 'Agent Zabbix',
+    notes: 'Instância AlwaysOn de produção com bases ERP e Financeiro.',
+  },
+  {
+    host_id: 'host-mysql-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'MYSQL-APP-01',
+    display_name: 'MySQL Portal - Base de Apoio Web',
+    host_type: 'mysql',
+    ip: '10.0.2.20',
+    criticality: 'media',
+    monitoring_model: 'Agent Zabbix',
+    notes: 'Servidor MySQL 8 com replicação assíncrona para reporting.',
+  },
+  {
+    host_id: 'host-web-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'WEB-PORTAL-01',
+    display_name: 'Web Server IIS / NGINX Gateway',
+    host_type: 'web_server',
+    ip: '10.0.3.10',
+    criticality: 'alta',
+    monitoring_model: 'Agent Zabbix',
+    notes: 'Portal público de serviços e intranet corporativa.',
+  },
+  {
+    host_id: 'host-m365-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'M365-TENANT',
+    display_name: 'Microsoft 365 Tenant Corporativo',
+    host_type: 'microsoft_365',
+    ip: 'graph.microsoft.com',
+    criticality: 'critica',
+    monitoring_model: 'ICMP PING',
+    notes: 'Monitoramento via Graph API de Service Health e alertas oficiais M365.',
+  },
+  {
+    host_id: 'host-mail-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'EXCHANGE-HYBRID-01',
+    display_name: 'Exchange Server Hybrid On-Premises',
+    host_type: 'mail_server',
+    ip: '10.0.1.50',
+    criticality: 'alta',
+    monitoring_model: 'Agent Zabbix',
+    notes: 'Relay SMTP e conectores híbridos de mensagens.',
+  },
+  {
+    host_id: 'host-ad-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'DC-AD-01',
+    display_name: 'Domain Controller Primário AD / LDAP',
+    host_type: 'ldap_ad',
+    ip: '10.0.0.5',
+    criticality: 'critica',
+    monitoring_model: 'Agent Zabbix',
+    notes: 'Controlador de domínio e catálogo global Kerberos/LDAP.',
+  },
+  {
+    host_id: 'host-app-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'APP-CORE-01',
+    display_name: 'Aplicação Corporativa ERP & APIs',
+    host_type: 'web_application',
+    ip: '10.0.3.30',
+    criticality: 'critica',
+    monitoring_model: 'Agent Zabbix',
+    notes: 'Serviço de aplicação com transações sintéticas e métricas JVM/CLR.',
+  },
+  {
+    host_id: 'host-sw-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'SW-CORE-01',
+    display_name: 'Switch Core Datacenter 10GbE',
+    host_type: 'network_switch',
+    ip: '10.0.254.1',
+    criticality: 'critica',
+    monitoring_model: 'SNMP',
+    notes: 'Switch de distribuição com uplinks redundantes e fontes duplas.',
+  },
+  {
+    host_id: 'host-ap-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'AP-SEDE-02',
+    display_name: 'Access Point Wi-Fi 6 - Pavilhão Central',
+    host_type: 'access_point',
+    ip: '10.0.250.22',
+    criticality: 'media',
+    monitoring_model: 'SNMP',
+    notes: 'Rádio dual-band corporativo com controle de densidade e canal.',
+  },
+  {
+    host_id: 'host-fw-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'FW-EDGE-CLUSTER',
+    display_name: 'Firewall de Borda FortiGate Cluster HA',
+    host_type: 'firewall',
+    ip: '10.0.254.254',
+    criticality: 'critica',
+    monitoring_model: 'SNMP',
+    notes: 'Perímetro principal com inspeção de pacotes e túneis IPsec matriz/filial.',
+  },
+  {
+    host_id: 'host-link-01',
+    customer_id: 'cust-firjan-001',
+    hostname: 'LINK-EMBRATEL-01',
+    display_name: 'Link de Internet Principal Embratel 500M',
+    host_type: 'internet_link',
+    ip: '200.180.10.1',
+    criticality: 'critica',
+    monitoring_model: 'ICMP PING',
+    notes: 'Circuito dedicado de internet para serviços críticos de nuvem.',
+  },
+];

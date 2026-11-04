@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "user": {
+      "title": "User Profile",
+      "description": "User account and profile information with LGPD consent record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Unique identifier of the user (Firebase Auth UID)" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "photoURL": { "type": "string", "description": "User profile avatar URL" },
+        "role": { "type": "string", "enum": ["admin", "analyst", "viewer"], "description": "Role of the user in the monitoring system" },
+        "lgpdConsentAccepted": { "type": "boolean", "description": "Whether the user accepted LGPD privacy and monitoring terms" },
+        "lgpdConsentTimestamp": { "type": "string", "description": "ISO timestamp of LGPD consent acceptance" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of account creation" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp of last profile update" }
+      },
+      "required": ["userId", "email", "createdAt"]
+    },
+    "userData": {
+      "title": "User Monitoring Data",
+      "description": "User customized customers, hosts inventory, and tailored rules",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner user ID" },
+        "customers": { "type": "array", "description": "List of customized client monitoring configurations" },
+        "hosts": { "type": "array", "description": "List of inventory hosts" },
+        "customRequirements": { "type": "array", "description": "Tailored validation requirements for clients" },
+        "updatedAt": { "type": "string", "description": "Timestamp of last sync" }
+      },
+      "required": ["userId", "updatedAt"]
+    },
+    "auditLog": {
+      "title": "LGPD Audit Log",
+      "description": "Immutable log of user actions for LGPD compliance and traceability (Art. 37)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Log entry identifier" },
+        "userId": { "type": "string", "description": "ID of user who performed the action" },
+        "userEmail": { "type": "string", "description": "Email of user" },
+        "action": { "type": "string", "description": "Action performed (e.g. THRESHOLD_UPDATE, HOST_IMPORT, DATA_EXPORT)" },
+        "target": { "type": "string", "description": "Entity or host modified" },
+        "details": { "type": "string", "description": "Details of the change" },
+        "timestamp": { "type": "string", "description": "Timestamp of the action" }
+      },
+      "required": ["id", "userId", "action", "timestamp"]
+    },
+    "healthCheck": {
+      "title": "Health Check Probe",
+      "description": "Probe document for validating connection to Cloud Firestore",
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "description": "Status of probe" }
+      }
+    }
+  },
+  "firestore": {
+    "/test/{docId}": {
+      "schema": "healthCheck",
+      "description": "Public probe for checking backend connection availability"
+    },
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "Private user profile and LGPD consent status"
+    },
+    "/users/{userId}/data/{docId}": {
+      "schema": "userData",
+      "description": "User specific monitoring rules, inventory hosts, and customized thresholds"
+    },
+    "/users/{userId}/audit_logs/{logId}": {
+      "schema": "auditLog",
+      "description": "Traceability and audit logs for LGPD compliance"
+    }
+  }
+}

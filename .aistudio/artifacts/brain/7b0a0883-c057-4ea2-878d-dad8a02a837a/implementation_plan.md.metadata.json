@@ -1,0 +1,6 @@
+{
+  "summary": "Plano de implementação do Painel de Conformidade (Compliance Dashboard) com visualizações Recharts (Gráfico de Barras Comparativo e Radar de Cobertura por Categoria) para identificação de gaps de monitoramento, acompanhado do exportador XLSX formatado em 4 abas completas (Resumo, Triggers, Hosts e Auditoria de Gaps).",
+  "updatedAt": "2026-11-03T12:25:13.043323198Z",
+  "requestFeedback": true,
+  "userFacing": true
+}
